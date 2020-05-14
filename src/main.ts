@@ -76,9 +76,9 @@ async function run(): Promise<void> {
         const changedFiles = await getChangedFiles(client, pr.number, pr.changed_files)
         core.debug(`Found ${changedFiles.count} changed files for pr #${pr.number}`)
 
-        core.setOutput("files_created", changedFiles.created.join(" "))
-        core.setOutput("files_updated", changedFiles.updated.join(" "))
-        core.setOutput("files_deleted", changedFiles.deleted.join(" "))
+        core.setOutput("files_created", JSON.stringify(changedFiles.created))
+        core.setOutput("files_updated", JSON.stringify(changedFiles.updated))
+        core.setOutput("files_deleted", JSON.stringify(changedFiles.deleted))
     } catch (error) {
         core.setFailed(error.message)
     }
