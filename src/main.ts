@@ -1,3 +1,4 @@
+import fs from "fs"
 import * as core from "@actions/core"
 import * as github from "@actions/github"
 import { WebhookPayload } from "@actions/github/lib/interfaces"
@@ -79,6 +80,10 @@ async function run(): Promise<void> {
         core.setOutput("files_created", JSON.stringify(changedFiles.created))
         core.setOutput("files_updated", JSON.stringify(changedFiles.updated))
         core.setOutput("files_deleted", JSON.stringify(changedFiles.deleted))
+
+        fs.writeFileSync(`${process.env.HOME}/files_created.json`, JSON.stringify(changedFiles.created), 'utf-8');
+        fs.writeFileSync(`${process.env.HOME}/files_updated.json`, JSON.stringify(changedFiles.updated), 'utf-8');
+        fs.writeFileSync(`${process.env.HOME}/files_deleted.json`, JSON.stringify(changedFiles.deleted), 'utf-8');
     } catch (error) {
         core.setFailed(error.message)
     }
